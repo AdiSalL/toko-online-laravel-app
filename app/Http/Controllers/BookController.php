@@ -18,10 +18,11 @@ class BookController extends Controller
     {
         //
         $status = $request->get("status");
+        $keyword = $request->get("keyword") ? $request->get("keyword") : "";
         if($status) {
-            $books = Book::with("categories")->where("status", strtoupper($status))->paginate(10);
+            $books = Book::with("categories")->where("status", strtoupper($status))->where("title", "LIKE", "%$keyword%")->paginate(10);
         }else {
-            $books = Book::with("categories")->paginate(10);
+            $books = Book::with("categories")->where("title", "LIKE", "%$keyword%")->paginate(10);
         }
         return view("books.index", ["books" => $books]);
     }
@@ -62,9 +63,9 @@ class BookController extends Controller
         $book->save();
         $book->categories()->attach($request->get("categories"));
         if($request->get("save_action") == "PUBLISH") {
-            return redirect()->route("books.create")->with("status", "Book successfullly saved and published");
+            return redirect()->route("books.index")->with("status", "Book successfullly saved and published");
         }else {
-            return redirect()->route("books.create")->with("status", "Book saved as draft");
+            return redirect()->route("books.index")->with("status", "Book saved as draft");
         }
 
     }

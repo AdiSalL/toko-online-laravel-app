@@ -9,6 +9,21 @@
  </div>
  @endif
  <div class="row mb-3">
+ <div class="col-md-6">
+<form
+action="{{route('books.index')}}"
+>
+<div class="input-group">
+<input name="keyword" type="text" value="
+{{Request::get('keyword')}}" class="form-control" placeholder="Filter by
+title">
+<div class="input-group-append">
+<input type="submit" value="Filter" class="btn btn-
+primary">
+</div>
+</div>
+</form>
+</div>
  <div class="col-md-12 text-right">
  <a
  href="{{route('books.create')}}"

@@ -94,6 +94,10 @@
                         <a class="nav-link" href="{{route('categories.index')}}">Manage Categories <span class="oi oi-people"></span></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{route('books.index')}}">Manage Books <span class="oi oi-people"></span></a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Settings</a>
                     </li>
                     <li class="nav-item">
