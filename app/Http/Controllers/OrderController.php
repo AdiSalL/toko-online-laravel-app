@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,6 +13,10 @@ class OrderController extends Controller
     public function index()
     {
         //
+        $orders = Order::with("user")->with("books")->paginate(10);
+        return view("orders.index", [
+            "orders" => $orders
+        ]);
     }
 
     /**
@@ -44,6 +49,10 @@ class OrderController extends Controller
     public function edit(string $id)
     {
         //
+        $order = Order::findOrFail($id);
+        return view("orders.edit", [
+            "order" => $order
+        ]);
     }
 
     /**
