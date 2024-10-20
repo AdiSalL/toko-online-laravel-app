@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,12 @@ Route::get("/ajax/categories/search", [CategoryController::class, "search"]);
 Route::get("/books/trash", [BookController::class, "trash"])->name("books.trash");
 Route::post("/books/{book}/restore", [BookController::class, "restore"])->name("books.restore");
 Route::delete("/books/{id}/delete-permanent", [BookController::class, "deletePermanent"])->name("books.delete-permanent");
+
 Route::resource("categories", CategoryController::class);
-
-
 Route::resource("books", BookController::class);
 
+
+Route::resource("orders", OrderController::class);
 
 Route::group(["prefix" => "category"], function (){
     Route::get("all", [CategoryController::class, "index"]);

@@ -57,4 +57,9 @@ class User extends Authenticatable
     public function handphones():HasMany {
         return $this->hasMany(Handphone::class);
     }
+
+    public function orders() {
+        return $this->hasMany(Order::class);    
+    }
 }
+
