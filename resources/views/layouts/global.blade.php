@@ -96,7 +96,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('books.index')}}">Manage Books <span class="oi oi-people"></span></a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('orders.index')}}">Manage Orders <span class="oi oi-people"></span></a>
+                    </li>
+       
                     <li class="nav-item">
                         <a class="nav-link" href="#">Settings</a>
                     </li>

@@ -6,17 +6,29 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct(){
+        $this->middleware(function($request, $next){
+            if(Gate::allows('manage-books')) return $next($request);
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+            });
+    }
+
     public function index(Request $request)
     {
         //
+ 
         $status = $request->get("status");
         $keyword = $request->get("keyword") ? $request->get("keyword") : "";
         if($status) {
@@ -45,6 +57,15 @@ class BookController extends Controller
     public function store(Request $request)
     {
         //
+        Validator::make($request->all(), [
+            "title" => "required|min:5|max:200",
+            "description" => "required|min:20|max:1000",
+            "author" => "required|min:3|max:200",
+            "publisher" => "required|min:3|max:200",
+"price" => "required|digits_between:0,10",
+"stock" => "required|digits_between:0,10",
+"cover" => "required"
+        ])->validate();
         $book = new Book();
         $book->title = $request->get("title");
         $book->description = $request->get("description");
@@ -84,6 +105,7 @@ class BookController extends Controller
     public function edit(string $id)
     {
         //
+
         $categories = Category::all();
         $book = Book::findOrFail($id);
 
@@ -99,7 +121,20 @@ class BookController extends Controller
     public function update(Request $request, string $id)
     {
         //
+
         $book = Book::findOrFail($id);
+        Validator::make($request->all(), [
+            "title" => "required|min:5|max:200",
+            "slug" => [
+            "required",
+            Rule::unique("books")->ignore($book->slug, "slug")
+            ],
+            "description" => "required|min:20|max:1000",
+            "author" => "required|min:3|max:100",
+            "publisher" => "required|min:3|max:200",
+            "price" => "required|digits_between:0,10",
+            "stock" => "required|digits_between:0,10",
+            ])->validate();
         $book->title = $request->get("title");
         $book->slug = $request->get('slug');
  $book->description = $request->get('description');

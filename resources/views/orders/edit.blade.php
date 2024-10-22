@@ -26,7 +26,35 @@
 <input type="text" class="form-control" value="{{$order->created_at}}"
 disabled >
     <br>
-            
+            <label for="created_at">Order Date</label><br>
+            <input type="text" class="form-control" value="{{$order->created_at}}">
+            <br>
+
+            <label for="">Books ({{$order->totalQuantity}})</label>
+            <ul>
+                @foreach($order->books as $book)
+                    <li>{{$book->title}} <b>({{$book->pivot->quantity}})</b></li>
+                @endforeach
+            </ul>
+
+            <label for="">Total Price</label>
+            <input type="text" class="form-control" value="{{$order->total_price}}" disabled>
+
+            <label for="status">Status</label><br>
+            <select name="status" id="status" class="form-control">
+                <option value="SUBMIT" {{$order->status == "SUBMIT" ? "selected" : ""}}>
+                    SUBMIT
+                </option>
+                <option value="SUBMIT" {{$order->status == "PROCESS" ? "selected" : ""}}>
+                    PROCESS
+                </option><option value="SUBMIT" {{$order->status == "FINISH" ? "selected" : ""}}>
+                    FINISH
+                </option><option value="SUBMIT" {{$order->status == "CANCEL" ? "selected" : ""}}>
+                    CANCEL
+                </option>
+            </select>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Update">
         </form>
     </div>
 
